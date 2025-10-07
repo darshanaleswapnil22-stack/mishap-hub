@@ -1,5 +1,16 @@
 import { Edit } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 
 interface Story {
   id: string;
@@ -42,6 +53,30 @@ const mockStories: Story[] = [
 ];
 
 const StoriesTable = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedStory, setSelectedStory] = useState<Story | null>(null);
+  const [editDescription, setEditDescription] = useState("");
+  const [editCriteria, setEditCriteria] = useState("");
+
+  const handleEditClick = (story: Story) => {
+    setSelectedStory(story);
+    setEditDescription(story.shortDescription);
+    setEditCriteria(story.acceptanceCriteria);
+    setIsDialogOpen(true);
+  };
+
+  const handleSubmit = () => {
+    // Handle update logic here
+    console.log("Updated:", { editDescription, editCriteria });
+    setIsDialogOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsDialogOpen(false);
+    setEditDescription("");
+    setEditCriteria("");
+  };
+
   const getStatusVariant = (status: Story["status"]) => {
     switch (status) {
       case "new":
@@ -88,7 +123,10 @@ const StoriesTable = () => {
                   </Badge>
                 </td>
                 <td className="py-4 px-4">
-                  <button className="p-2 hover:bg-muted rounded-lg transition-colors">
+                  <button 
+                    onClick={() => handleEditClick(story)}
+                    className="p-2 hover:bg-muted rounded-lg transition-colors"
+                  >
                     <Edit size={20} className="text-muted-foreground" />
                   </button>
                 </td>
@@ -97,6 +135,50 @@ const StoriesTable = () => {
           </tbody>
         </table>
       </div>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="sm:max-w-[800px]">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-semibold text-foreground">Short Description</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-6 py-4">
+            <div className="space-y-2">
+              <Input
+                value={editDescription}
+                onChange={(e) => setEditDescription(e.target.value)}
+                placeholder="Story 16677ABC"
+                className="w-full"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label className="text-lg font-semibold text-foreground">Acceptance Criteria</Label>
+              <Textarea
+                value={editCriteria}
+                onChange={(e) => setEditCriteria(e.target.value)}
+                placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
+                className="w-full min-h-[120px]"
+              />
+            </div>
+
+            <div className="flex justify-end gap-3 pt-4">
+              <Button 
+                variant="outline" 
+                onClick={handleCancel}
+                className="px-8"
+              >
+                Cancel
+              </Button>
+              <Button 
+                onClick={handleSubmit}
+                className="px-8 bg-primary hover:bg-primary/90 text-primary-foreground"
+              >
+                Submit
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
