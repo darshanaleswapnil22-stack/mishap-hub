@@ -1,4 +1,5 @@
-import { Cloud } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCloudArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@/components/ui/button";
 import { useState, useRef } from "react";
 import { toast } from "sonner";
@@ -85,7 +86,7 @@ const UploadTranscript = () => {
           strokeDasharray: '6 6'
         }}
       >
-        <Cloud className="w-12 h-12 text-primary" strokeWidth={1.5} />
+        <FontAwesomeIcon icon={faCloudArrowUp} className="w-12 h-12 text-primary" />
         <p className="text-foreground text-sm">
           Drag your file(s) or{" "}
           <button 
