@@ -78,7 +78,7 @@ const UploadTranscript = () => {
       </p>
 
       <div 
-        className="border border-dashed border-border rounded-lg p-3 text-center mb-4 flex flex-col items-center justify-center gap-3"
+        className="border border-dashed border-border rounded-lg p-3 text-center mb-4 flex flex-col items-center justify-center gap-3 mx-auto"
         style={{ 
           width: '335px', 
           height: '144px',
